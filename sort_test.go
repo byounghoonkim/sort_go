@@ -2,16 +2,16 @@ package main
 
 import "testing"
 import "fmt"
+import "math/rand"
 
-func copyData(data[]int) []int {
-	ret := make([]int, len(data))
-	copy(ret, data)
-	return ret
-}
+func testSortFunc(f func([]int)[]int, n int) error{
 
-func testSortFunc(f func([]int)[]int) error{
-	data := []int{4, 3, 2, 1}
-	result := f(copyData(data))
+	data := make([]int, n)
+	for i:=0; i< len(data);i++{
+		data[i] = rand.Intn(n)
+	}
+
+	result := f(data)
 
 	for i:= 0 ; i< len(result) -1; i++ {
 		if result[i] > result[i+1] {
@@ -23,13 +23,13 @@ func testSortFunc(f func([]int)[]int) error{
 }
 
 func TestMergeSort(t *testing.T)  {
-	if err := testSortFunc(mergeSort); err != nil {
+	if err := testSortFunc(mergeSort, 100); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestQuickSort(t *testing.T)  {
-	if err := testSortFunc(quickSort); err != nil {
+	if err := testSortFunc(quickSort, 100); err != nil {
 		t.Error(err)
 	}
 }
